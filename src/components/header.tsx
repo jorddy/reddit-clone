@@ -173,8 +173,7 @@ export default function Header() {
             ) : (
               <button
                 onClick={() => signIn("reddit")}
-                className='hidden space-x-2 border border-gray-100 p-2 cursor-pointer 
-                lg:flex lg:items-center'
+                className='flex items-center gap-2'
               >
                 <div className='relative w-5 h-5 flex-shrink-0'>
                   <Image

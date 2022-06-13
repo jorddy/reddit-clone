@@ -16,7 +16,7 @@ const MyApp = ({
 
       <div className='min-h-screen bg-slate-200'>
         <Header />
-        <main className='mt-4'>
+        <main className='mt-4 container mx-auto px-4'>
           <Component {...pageProps} />
         </main>
       </div>
