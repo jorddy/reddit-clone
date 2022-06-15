@@ -1,10 +1,15 @@
 import { NextPage } from "next";
+import PostBox from "@/components/post-box";
+import Feed from "@/components/feed";
 
 const Index: NextPage = () => {
   return (
-    <>
-      <h1>Lets build reddit</h1>
-    </>
+    <main className='my-4 container mx-auto px-4'>
+      <PostBox />
+      <section className='flex'>
+        <Feed />
+      </section>
+    </main>
   );
 };
 
