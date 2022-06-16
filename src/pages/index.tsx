@@ -1,8 +1,8 @@
-import { NextPage } from "next";
+import { FC } from "react";
 import PostBox from "@/components/post-box";
 import Feed from "@/components/feed";
 
-const Index: NextPage = () => {
+const Index: FC = () => {
   return (
     <main className='my-4 container mx-auto px-4'>
       <PostBox />

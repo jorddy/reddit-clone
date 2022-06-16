@@ -13,6 +13,7 @@
     "@hookform/resolvers": "^2.9.1",
     "@next-auth/prisma-adapter": "^1.0.3",
     "@prisma/client": "^3.15.1",
+    "date-fns": "^2.28.0",
     "next": "12.1.6",
     "next-auth": "^4.5.0",
     "react": "18.1.0",

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import RedditProvider from "next-auth/providers/reddit";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@/backend/data/client";
+import { prisma } from "@/utils/db";
 import { User } from "@prisma/client";
 
 declare module "next-auth" {

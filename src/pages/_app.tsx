@@ -19,12 +19,12 @@ const MyApp = ({
           <title>Reddit 2.0</title>
         </Head>
 
-        <Toaster position='bottom-center' />
-
-        <div className='min-h-screen bg-slate-200'>
+        <div className='min-h-screen bg-slate-200 overflow-y-scroll'>
           <Header />
           <Component {...pageProps} />
         </div>
+
+        <Toaster position='bottom-center' />
       </SessionProvider>
     </QueryClientProvider>
   );

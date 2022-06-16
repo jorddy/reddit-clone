@@ -50,7 +50,7 @@ const MobileHeader: FC = () => {
         <p>Engagement</p>
       </div>
       <div className='icon-menu'>
-        {session ? (
+        {session && (
           <button onClick={() => signOut()} className='flex items-center gap-2'>
             <div className='relative w-5 h-5 flex-shrink-0'>
               <Image
@@ -68,7 +68,9 @@ const MobileHeader: FC = () => {
 
             <ChevronDownIcon className='h-5 flex-1 text-gray-400' />
           </button>
-        ) : (
+        )}
+
+        {!session && (
           <button
             onClick={() => signIn("reddit")}
             className='flex items-center gap-2'

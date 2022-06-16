@@ -16,6 +16,7 @@ import {
   VideoCameraIcon
 } from "@heroicons/react/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import MobileHeader from "./mobile-header";
 
 const Header: FC = () => {
@@ -26,12 +27,14 @@ const Header: FC = () => {
     <>
       <header className='sticky top-0 z-50 flex bg-white px-4 py-2 shadow-sm'>
         <div className='relative w-20 cursor-pointer'>
-          <Image
-            src='https://links.papareact.com/fqy'
-            alt='Reddit logo'
-            layout='fill'
-            objectFit='contain'
-          />
+          <Link href='/'>
+            <Image
+              src='https://links.papareact.com/fqy'
+              alt='Reddit logo'
+              layout='fill'
+              objectFit='contain'
+            />
+          </Link>
         </div>
 
         <div className='mx-7 flex items-center xl:min-w-[300px]'>
@@ -42,7 +45,7 @@ const Header: FC = () => {
 
         <form
           className='flex flex-1 items-center space-x-2 border border-gray-200 
-        rounded-sm bg-gray-100 px-3 py-1 focus-within:outline focus-within:outline-gray-800'
+          rounded-sm bg-gray-100 px-3 py-1 focus-within:outline focus-within:outline-gray-800'
         >
           <SearchIcon className='w-6 h-6 text-gray-400' />
           {/* Hidden label for accessibility */}
@@ -77,7 +80,7 @@ const Header: FC = () => {
           <MenuIcon className='icon' />
         </button>
 
-        {session ? (
+        {session && (
           <button
             onClick={() => signOut()}
             className='hidden space-x-2 border border-gray-100 p-2 cursor-pointer 
@@ -99,11 +102,13 @@ const Header: FC = () => {
 
             <ChevronDownIcon className='h-5 flex-shrink-0 text-gray-400' />
           </button>
-        ) : (
+        )}
+
+        {!session && (
           <button
             onClick={() => signIn("reddit")}
             className='hidden space-x-2 border border-gray-100 p-2 cursor-pointer 
-            lg:flex lg:items-center'
+          lg:flex lg:items-center'
           >
             <div className='relative w-5 h-5 flex-shrink-0'>
               <Image

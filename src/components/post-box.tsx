@@ -3,28 +3,35 @@ import { useSession } from "next-auth/react";
 import { LinkIcon, PhotographIcon } from "@heroicons/react/outline";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "react-query";
 import { postValidator, PostValidator } from "@/shared/post-validator";
-import { useCreatePost } from "@/backend/mutations/use-create-post";
+import { useCreatePost } from "@/hooks/mutations/use-create-post";
 import Avatar from "./avatar";
 
-const PostBox: FC = () => {
+const PostBox: FC<{ subreddit?: string }> = ({ subreddit }) => {
   const [imageBoxOpen, setImageBoxOpen] = useState(false);
+  const queryClient = useQueryClient();
   const { data: session } = useSession();
-  const { mutate, isLoading } = useCreatePost();
+  const { mutate, isLoading } = useCreatePost(queryClient);
 
   const {
     handleSubmit,
     register,
     formState: { errors },
-    watch
+    watch,
+    reset
   } = useForm<PostValidator>({
+    defaultValues: { subreddit: subreddit },
     resolver: zodResolver(postValidator)
   });
 
   return (
     <form
-      onSubmit={handleSubmit(data => mutate(data))}
-      className='sticky top-16 z-40 p-2 rounded-md bg-white border border-gray-300'
+      onSubmit={handleSubmit(data => {
+        mutate(data);
+        reset();
+      })}
+      className='sticky top-20 z-40 p-2 rounded-md bg-white border border-gray-300'
     >
       <div className='flex items-center gap-3'>
         <Avatar />
@@ -34,10 +41,15 @@ const PostBox: FC = () => {
           Title:
         </label>
         <input
-          {...register("title", { disabled: !session })}
+          {...register("title")}
           className='flex-1 p-2 pl-5 bg-gray-50 rounded-sm'
+          disabled={!session}
           placeholder={
-            session ? "Create a post by entering a title!" : "Sign in to post"
+            session
+              ? subreddit
+                ? `Create a post in r/${subreddit}`
+                : "Create a post by entering a title!"
+              : "Sign in to post"
           }
         />
         <p className='text-red-500'>{errors.title?.message}</p>
@@ -65,17 +77,19 @@ const PostBox: FC = () => {
             <p className='text-red-500'>{errors.body?.message}</p>
           </div>
 
-          <div className='flex items-center px-2'>
-            <label htmlFor='subreddit' className='min-w-[90px]'>
-              Subreddit:
-            </label>
-            <input
-              {...register("subreddit")}
-              className='m-2 p-2 flex-1 bg-blue-50'
-              placeholder='e.g. reactjs'
-            />
-            <p className='text-red-500'>{errors.subreddit?.message}</p>
-          </div>
+          {!subreddit && (
+            <div className='flex items-center px-2'>
+              <label htmlFor='subreddit' className='min-w-[90px]'>
+                Subreddit:
+              </label>
+              <input
+                {...register("subreddit")}
+                className='m-2 p-2 flex-1 bg-blue-50'
+                placeholder='e.g. reactjs'
+              />
+              <p className='text-red-500'>{errors.subreddit?.message}</p>
+            </div>
+          )}
 
           {imageBoxOpen && (
             <div className='flex items-center px-2'>
@@ -89,6 +103,8 @@ const PostBox: FC = () => {
               />
             </div>
           )}
+
+          <pre>{JSON.stringify(errors)}</pre>
 
           <button
             type='submit'

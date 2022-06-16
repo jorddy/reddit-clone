@@ -1,13 +1,13 @@
-import toast from "react-hot-toast";
-import { useMutation } from "react-query";
+import { QueryClient, useMutation } from "react-query";
 import { ZodError } from "zod";
-import { PostValidator } from "@/shared/post-validator";
 import { Post } from "@prisma/client";
+import toast from "react-hot-toast";
+import { PostValidator } from "@/shared/post-validator";
 
-export const useCreatePost = () =>
+export const useCreatePost = (queryClient: QueryClient) =>
   useMutation<Post, ZodError, PostValidator>(
     async data => {
-      const res = await fetch("/api/post", {
+      const res = await fetch("/api/post/create", {
         method: "POST",
         body: JSON.stringify(data)
       });
@@ -24,10 +24,10 @@ export const useCreatePost = () =>
         toast.error(`Whoops something went wrong!`);
         console.error(error);
       },
-      onSuccess: data => {
+      onSuccess: () => {
         toast.dismiss();
         toast.success("New post created");
-        console.log(data);
+        queryClient.invalidateQueries(["posts"]);
       }
     }
   );
