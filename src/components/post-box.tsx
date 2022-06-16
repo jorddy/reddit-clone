@@ -34,7 +34,7 @@ const PostBox: FC<{ subreddit?: string }> = ({ subreddit }) => {
       className='sticky top-20 z-40 p-2 rounded-md bg-white border border-gray-300'
     >
       <div className='flex items-center gap-3'>
-        <Avatar />
+        <Avatar responsive />
 
         {/* Hidden label for accessibility */}
         <label htmlFor='title' hidden>
@@ -56,11 +56,11 @@ const PostBox: FC<{ subreddit?: string }> = ({ subreddit }) => {
 
         <PhotographIcon
           onClick={() => setImageBoxOpen(!imageBoxOpen)}
-          className={`h-6 text-gray-500 cursor-pointer ${
+          className={`w-6 h-6 text-gray-500 cursor-pointer ${
             imageBoxOpen && "text-blue-300"
           }`}
         />
-        <LinkIcon className='h-6 text-gray-500' />
+        <LinkIcon className='w-6 h-6 text-gray-500' />
       </div>
 
       {!!watch("title") && (
@@ -103,8 +103,6 @@ const PostBox: FC<{ subreddit?: string }> = ({ subreddit }) => {
               />
             </div>
           )}
-
-          <pre>{JSON.stringify(errors)}</pre>
 
           <button
             type='submit'

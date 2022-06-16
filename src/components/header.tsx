@@ -25,8 +25,11 @@ const Header: FC = () => {
 
   return (
     <>
-      <header className='sticky top-0 z-50 flex bg-white px-4 py-2 shadow-sm'>
-        <div className='relative w-20 cursor-pointer'>
+      <header
+        className='sticky top-0 z-50 flex justify-between items-center bg-white 
+        px-4 py-2 shadow-sm sm:justify-start'
+      >
+        <div className='relative w-20 h-10 cursor-pointer'>
           <Link href='/'>
             <Image
               src='https://links.papareact.com/fqy'
@@ -44,7 +47,7 @@ const Header: FC = () => {
         </div>
 
         <form
-          className='flex flex-1 items-center space-x-2 border border-gray-200 
+          className='search flex flex-1 items-center space-x-2 border border-gray-200 
           rounded-sm bg-gray-100 px-3 py-1 focus-within:outline focus-within:outline-gray-800'
         >
           <SearchIcon className='w-6 h-6 text-gray-400' />

@@ -60,7 +60,7 @@ const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
               <img className='w-full' src={post.image} alt={post.title} />
             )}
 
-            <div className='flex gap-4 text-gray-500'>
+            <div className='flex flex-wrap gap-0 text-gray-500 sm:gap-4'>
               <div className='post-button'>
                 <ChatAltIcon className='w-6 h-6' />
                 <p>{post.comments.length} Comments</p>
