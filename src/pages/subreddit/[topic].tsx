@@ -4,7 +4,7 @@ import PostBox from "@/components/post-box";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
-const Subreddit: FC = () => {
+const SubredditPage: FC = () => {
   const { query } = useRouter();
 
   return (
@@ -34,4 +34,4 @@ const Subreddit: FC = () => {
   );
 };
 
-export default Subreddit;
+export default SubredditPage;

@@ -3,6 +3,7 @@ import { usePosts } from "@/hooks/queries/use-posts";
 import { useRefetchToast } from "@/hooks/use-refetch-toast";
 import { usePostsByTopic } from "@/hooks/queries/use-posts-by-topic";
 import Post from "./post";
+import Loader from "./loader";
 
 const SubredditFeed: FC<{ topic: string }> = ({ topic }) => {
   const { data, isLoading, isRefetching } = usePostsByTopic({ topic });
@@ -10,7 +11,7 @@ const SubredditFeed: FC<{ topic: string }> = ({ topic }) => {
 
   return (
     <div className='my-5 space-y-4'>
-      {isLoading && <p>Loading subreddit posts...</p>}
+      {isLoading && <Loader />}
       {!isLoading &&
         data &&
         data.length > 0 &&
@@ -28,7 +29,7 @@ const MainFeed = () => {
 
   return (
     <div className='my-5 space-y-4'>
-      {isLoading && <p>Loading posts...</p>}
+      {isLoading && <Loader />}
       {!isLoading && data?.map(post => <Post key={post.id} post={post} />)}
     </div>
   );
