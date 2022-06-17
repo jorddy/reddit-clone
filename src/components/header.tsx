@@ -31,12 +31,14 @@ const Header: FC = () => {
       >
         <div className='relative w-20 h-10 cursor-pointer'>
           <Link href='/'>
-            <Image
-              src='https://links.papareact.com/fqy'
-              alt='Reddit logo'
-              layout='fill'
-              objectFit='contain'
-            />
+            <a>
+              <Image
+                src='https://links.papareact.com/fqy'
+                alt='Reddit logo'
+                layout='fill'
+                objectFit='contain'
+              />
+            </a>
           </Link>
         </div>
 
