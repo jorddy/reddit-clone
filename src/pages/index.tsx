@@ -13,8 +13,8 @@ import SubredditRow from "@/components/subreddit-row";
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(["posts"], getPosts);
-  await queryClient.prefetchQuery(["subreddits-by-limit"], () =>
+  await queryClient.prefetchQuery("posts", getPosts);
+  await queryClient.prefetchQuery("subreddits-by-limit", () =>
     getSubredditsByLimit({ limit: 10 })
   );
 
