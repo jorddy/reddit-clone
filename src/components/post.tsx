@@ -75,14 +75,13 @@ const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
             <div className='flex items-center gap-2'>
               <Avatar seed={post.subreddit.topic} />
               <p className='text-sm text-gray-400'>
-                <Link href={`/subreddit/${post.subreddit.topic}`}>
-                  <a
-                    className='font-bold text-black transition 
+                {/* <Link href={`/subreddit/${post.subreddit.topic}`}> */}
+                <span
+                  className='font-bold text-black transition 
                   hover:text-blue-400 hover:underline'
-                  >
-                    r/{post.subreddit.topic}
-                  </a>
-                </Link>
+                >
+                  r/{post.subreddit.topic}
+                </span>
                 . Posted by u/{post.user.name}{" "}
                 {formatRelative(new Date(post.createdAt), new Date())}
               </p>
@@ -121,6 +120,7 @@ const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
           </div>
         </a>
       </Link>
+
       {comments && (
         <Comments comments={post.comments as any} postId={post.id} />
       )}
