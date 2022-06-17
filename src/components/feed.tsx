@@ -12,13 +12,12 @@ const SubredditFeed: FC<{ topic: string }> = ({ topic }) => {
   return (
     <div className='my-5 space-y-4'>
       {isLoading && <Loader />}
-      {!isLoading &&
-        data &&
-        data.length > 0 &&
-        data?.map(post => <Post key={post.id} post={post} />)}
-      {!isLoading && data && data.length === 0 && (
+      {!isLoading && data!.length === 0 && (
         <p>No posts found in this subreddit</p>
       )}
+      {!isLoading &&
+        data!.length > 0 &&
+        data?.map(post => <Post key={post.id} post={post} />)}
     </div>
   );
 };
