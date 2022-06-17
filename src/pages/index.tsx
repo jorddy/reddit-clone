@@ -6,9 +6,11 @@ import {
   useSubredditsByLimit
 } from "@/hooks/queries/use-subreddits-by-limit";
 import { getPosts } from "@/hooks/queries/use-posts";
-import PostBox from "@/components/post-box";
 import Feed from "@/components/feed";
 import SubredditRow from "@/components/subreddit-row";
+import dynamic from "next/dynamic";
+
+const PostBox = dynamic(() => import("@/components/post-box"));
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();

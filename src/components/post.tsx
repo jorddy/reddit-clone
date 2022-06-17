@@ -11,12 +11,14 @@ import {
 } from "@heroicons/react/solid";
 import { formatRelative } from "date-fns";
 import toast from "react-hot-toast";
-import Link from "next/link";
-import Avatar from "./avatar";
-import Comments from "./comments";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "react-query";
 import { useAddVote } from "@/hooks/mutations/use-add-vote";
+import Link from "next/link";
+import Avatar from "./avatar";
+import dynamic from "next/dynamic";
+
+const Comments = dynamic(() => import("./comments"));
 
 const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
   post,

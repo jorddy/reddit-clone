@@ -1,8 +1,10 @@
+import { FC } from "react";
+import { useRouter } from "next/router";
 import Avatar from "@/components/avatar";
 import Feed from "@/components/feed";
-import PostBox from "@/components/post-box";
-import { useRouter } from "next/router";
-import { FC } from "react";
+import dynamic from "next/dynamic";
+
+const PostBox = dynamic(() => import("@/components/post-box"));
 
 const SubredditPage: FC = () => {
   const { query } = useRouter();
