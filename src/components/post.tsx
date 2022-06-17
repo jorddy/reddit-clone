@@ -18,10 +18,11 @@ import { useSession } from "next-auth/react";
 import { useQueryClient } from "react-query";
 import { useAddVote } from "@/hooks/mutations/use-add-vote";
 
-const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
-  post,
-  comments
-}) => {
+const Post: FC<{
+  post: GetPosts[0];
+  comments?: boolean;
+  isPostPage?: boolean;
+}> = ({ post, comments, isPostPage }) => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useAddVote(queryClient);
@@ -44,34 +45,38 @@ const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
           className='flex cursor-pointer rounded-md border border-gray-300 bg-white 
           shadow-sm transition hover:border-gray-600'
         >
-          <div
-            className='p-4 flex flex-col items-center justify-start gap-1 bg-gray-50 
-          text-gray-400 rounded-l-md'
-          >
-            <button
-              disabled={isLoading || userVote?.upvote}
-              onClick={() => upvote(true)}
+          {isPostPage && (
+            <div
+              className='p-4 flex flex-col items-center justify-start gap-1 bg-gray-50 
+            text-gray-400 rounded-l-md'
             >
-              <ArrowUpIcon
-                className={`vote-button hover:red-text-400 ${
-                  userVote?.upvote && "text-red-500"
-                }`}
-              />
-            </button>
-            <p className='text-black font-bold text-sm'>{post.votes.length}</p>
-            <button
-              disabled={isLoading || userVote?.upvote === false}
-              onClick={() => upvote(false)}
-            >
-              <ArrowDownIcon
-                className={`vote-button hover:red-blue-400 ${
-                  userVote?.upvote === false && "text-blue-500"
-                }`}
-              />
-            </button>
-          </div>
+              <button
+                disabled={isLoading || userVote?.upvote}
+                onClick={() => upvote(true)}
+              >
+                <ArrowUpIcon
+                  className={`vote-button hover:red-text-400 ${
+                    userVote?.upvote && "text-red-500"
+                  }`}
+                />
+              </button>
+              <p className='text-black font-bold text-sm'>
+                {post.votes.length}
+              </p>
+              <button
+                disabled={isLoading || userVote?.upvote === false}
+                onClick={() => upvote(false)}
+              >
+                <ArrowDownIcon
+                  className={`vote-button hover:red-blue-400 pointer-events-none ${
+                    userVote?.upvote === false && "text-blue-500"
+                  }`}
+                />
+              </button>
+            </div>
+          )}
 
-          <div className='p-3 pb-1'>
+          <div className={`pb-1 ${isPostPage ? "p-3" : "p-6"}`}>
             <div className='flex items-center gap-2'>
               <Avatar seed={post.subreddit.topic} />
               <p className='text-sm text-gray-400'>
