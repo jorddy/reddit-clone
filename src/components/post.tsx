@@ -68,7 +68,7 @@ const Post: FC<{
                 onClick={() => upvote(false)}
               >
                 <ArrowDownIcon
-                  className={`vote-button hover:red-blue-400 pointer-events-none ${
+                  className={`vote-button hover:red-blue-400 ${
                     userVote?.upvote === false && "text-blue-500"
                   }`}
                 />
