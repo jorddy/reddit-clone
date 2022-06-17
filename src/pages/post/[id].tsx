@@ -11,7 +11,7 @@ const PostPage = () => {
 
   return (
     <main className='my-4 container mx-auto px-4'>
-      {data && <Post post={data} comments={true} />}
+      {data && <Post post={data} comments={true} isPostPage={true} />}
     </main>
   );
 };

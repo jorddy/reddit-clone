@@ -5,9 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "react-query";
 import { commentValidator, CommentValidator } from "@/shared/comment-validator";
 import { useAddComment } from "@/hooks/mutations/use-add-comment";
-import Avatar from "./avatar";
 import { Comment, User } from "@prisma/client";
 import { formatRelative } from "date-fns";
+import Avatar from "./avatar";
 
 const Comments: FC<{
   comments: (Comment & { user: User })[];
@@ -21,8 +21,7 @@ const Comments: FC<{
     handleSubmit,
     register,
     formState: { errors },
-    reset,
-    watch
+    reset
   } = useForm<CommentValidator>({
     defaultValues: { postId: postId },
     resolver: zodResolver(commentValidator)
@@ -49,6 +48,9 @@ const Comments: FC<{
             session ? "What are your thoughts" : "Please sign in to comment"
           }
         />
+        {errors.comment && (
+          <p className='text-red-500'>{errors.comment.message}</p>
+        )}
 
         <button
           type='submit'
