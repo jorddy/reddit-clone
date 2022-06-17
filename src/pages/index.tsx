@@ -1,8 +1,29 @@
 import { FC } from "react";
-import { useSubredditsByLimit } from "@/hooks/queries/use-subreddits-by-limit";
+import { GetServerSideProps } from "next";
+import { dehydrate, QueryClient } from "react-query";
+import {
+  getSubredditsByLimit,
+  useSubredditsByLimit
+} from "@/hooks/queries/use-subreddits-by-limit";
+import { getPosts } from "@/hooks/queries/use-posts";
 import PostBox from "@/components/post-box";
 import Feed from "@/components/feed";
 import SubredditRow from "@/components/subreddit-row";
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(["posts"], getPosts);
+  await queryClient.prefetchQuery(["subreddits-by-limit"], () =>
+    getSubredditsByLimit({ limit: 10 })
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient)
+    }
+  };
+};
 
 const Index: FC = () => {
   const { data, isLoading } = useSubredditsByLimit({ limit: 10 });

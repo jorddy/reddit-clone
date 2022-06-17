@@ -1,12 +1,12 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
-import { Toaster } from "react-hot-toast";
+import { useState } from "react";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Head from "next/head";
 import Header from "@/components/header";
-import { useState } from "react";
 
 const MyApp = ({
   Component,
