@@ -22,8 +22,7 @@ export type GetPostsByTopic = Awaited<ReturnType<typeof getPostsByTopic>>;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const topic = req.query.topic;
-    const input = postByTopicValidator.parse({ topic });
+    const input = postByTopicValidator.parse({ topic: req.query.topic });
     const posts = await getPostsByTopic(input);
 
     res.status(200).json(posts);

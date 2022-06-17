@@ -25,8 +25,7 @@ export type GetPostById = Awaited<ReturnType<typeof getPostById>>;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const id = req.query.id;
-    const input = postByIdValidator.parse({ id });
+    const input = postByIdValidator.parse({ id: req.query.id });
     const posts = await getPostById(input);
 
     res.status(200).json(posts);
