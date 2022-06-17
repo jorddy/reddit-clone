@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { ZodError } from "zod";
-import { GetPostsById } from "@/pages/api/post/get-by-id";
+import { GetPostById } from "@/pages/api/post/get-by-id";
 import { PostByIdValidator } from "@/shared/post-by-id-validator";
 
 export const usePostsById = (input: PostByIdValidator) =>
-  useQuery<GetPostsById, ZodError>(
+  useQuery<GetPostById, ZodError>(
     ["posts-by-id", input.id],
     async () => {
       const res = await fetch(`/api/post/get-by-id?id=${input.id}`);

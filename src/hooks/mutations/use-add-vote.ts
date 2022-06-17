@@ -1,13 +1,13 @@
 import { QueryClient, useMutation } from "react-query";
 import { ZodError } from "zod";
+import { AddVote } from "@/pages/api/add-vote";
+import { VoteValidator } from "@/shared/vote-validator";
 import toast from "react-hot-toast";
-import { CreatePost } from "@/pages/api/post/create";
-import { PostValidator } from "@/shared/post-validator";
 
-export const useCreatePost = (queryClient: QueryClient) =>
-  useMutation<CreatePost, ZodError, PostValidator>(
+export const useAddVote = (queryClient: QueryClient) =>
+  useMutation<AddVote, ZodError, VoteValidator>(
     async data => {
-      const res = await fetch("/api/post/create", {
+      const res = await fetch("/api/add-vote", {
         method: "POST",
         body: JSON.stringify(data)
       });
@@ -17,7 +17,7 @@ export const useCreatePost = (queryClient: QueryClient) =>
     },
     {
       onMutate: () => {
-        toast.loading("Creating new post...");
+        toast.loading("Voting...");
       },
       onError: error => {
         toast.dismiss();
@@ -26,8 +26,8 @@ export const useCreatePost = (queryClient: QueryClient) =>
       },
       onSuccess: () => {
         toast.dismiss();
-        toast.success("New post created");
-        queryClient.invalidateQueries(["posts"]);
+        toast.success("Thanks for your vote!");
+        queryClient.invalidateQueries(["posts-by-id"]);
       }
     }
   );

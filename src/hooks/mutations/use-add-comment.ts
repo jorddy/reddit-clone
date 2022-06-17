@@ -1,13 +1,13 @@
 import { QueryClient, useMutation } from "react-query";
 import { ZodError } from "zod";
+import { AddComment } from "@/pages/api/add-comment";
+import { CommentValidator } from "@/shared/comment-validator";
 import toast from "react-hot-toast";
-import { CreatePost } from "@/pages/api/post/create";
-import { PostValidator } from "@/shared/post-validator";
 
-export const useCreatePost = (queryClient: QueryClient) =>
-  useMutation<CreatePost, ZodError, PostValidator>(
+export const useAddComment = (queryClient: QueryClient) =>
+  useMutation<AddComment, ZodError, CommentValidator>(
     async data => {
-      const res = await fetch("/api/post/create", {
+      const res = await fetch("/api/add-comment", {
         method: "POST",
         body: JSON.stringify(data)
       });
@@ -17,7 +17,7 @@ export const useCreatePost = (queryClient: QueryClient) =>
     },
     {
       onMutate: () => {
-        toast.loading("Creating new post...");
+        toast.loading("Posting your comment...");
       },
       onError: error => {
         toast.dismiss();
@@ -26,8 +26,8 @@ export const useCreatePost = (queryClient: QueryClient) =>
       },
       onSuccess: () => {
         toast.dismiss();
-        toast.success("New post created");
-        queryClient.invalidateQueries(["posts"]);
+        toast.success("Your comment has been added");
+        queryClient.invalidateQueries(["posts-by-id"]);
       }
     }
   );

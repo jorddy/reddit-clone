@@ -26,14 +26,18 @@ const createPost = async (input: PostValidator, userId: string) => {
   });
 };
 
+export type CreatePost = Awaited<ReturnType<typeof createPost>>;
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
 
   try {
-    const input = postValidator.parse(JSON.parse(req.body));
-    const post = await createPost(input, session!.user.id);
+    if (session) {
+      const input = postValidator.parse(JSON.parse(req.body));
+      const post = await createPost(input, session.user.id);
 
-    res.status(200).json(post);
+      res.status(200).json(post);
+    }
   } catch (error) {
     if (error instanceof ZodError) {
       res.status(500).json(error);

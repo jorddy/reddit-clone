@@ -14,8 +14,8 @@ const MyApp = ({
   pageProps: { session, ...pageProps }
 }: AppProps) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
         <Head>
           <title>Reddit 2.0</title>
         </Head>
@@ -27,8 +27,8 @@ const MyApp = ({
 
         <Toaster position='bottom-center' />
         <ReactQueryDevtools />
-      </SessionProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 };
 

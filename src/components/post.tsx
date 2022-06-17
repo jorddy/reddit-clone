@@ -10,14 +10,33 @@ import {
   ShareIcon
 } from "@heroicons/react/solid";
 import { formatRelative } from "date-fns";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import Avatar from "./avatar";
 import Comments from "./comments";
+import { useSession } from "next-auth/react";
+import { useQueryClient } from "react-query";
+import { useAddVote } from "@/hooks/mutations/use-add-vote";
 
 const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
   post,
   comments
 }) => {
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useAddVote(queryClient);
+
+  const userVote = post.votes.find(vote => vote.userId === session?.user.id);
+
+  const upvote = async (isUpvote: boolean) => {
+    if (!session) {
+      toast("You need to be signed in to vote");
+      return;
+    }
+
+    mutate({ upvote: isUpvote, postId: post.id, voteId: userVote?.id });
+  };
+
   return (
     <>
       <Link href={`/post/${post.id}`}>
@@ -29,9 +48,27 @@ const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
             className='p-4 flex flex-col items-center justify-start gap-1 bg-gray-50 
           text-gray-400 rounded-l-md'
           >
-            <ArrowUpIcon className='vote-button hover:red-text-400' />
-            <p className='text-black font-bold text-sm'>0</p>
-            <ArrowDownIcon className='vote-button hover:red-blue-400' />
+            <button
+              disabled={isLoading || userVote?.upvote}
+              onClick={() => upvote(true)}
+            >
+              <ArrowUpIcon
+                className={`vote-button hover:red-text-400 ${
+                  userVote?.upvote && "text-red-500"
+                }`}
+              />
+            </button>
+            <p className='text-black font-bold text-sm'>{post.votes.length}</p>
+            <button
+              disabled={isLoading || userVote?.upvote === false}
+              onClick={() => upvote(false)}
+            >
+              <ArrowDownIcon
+                className={`vote-button hover:red-blue-400 ${
+                  userVote?.upvote === false && "text-blue-500"
+                }`}
+              />
+            </button>
           </div>
 
           <div className='p-3 pb-1'>
@@ -84,7 +121,9 @@ const Post: FC<{ post: GetPosts[0]; comments?: boolean }> = ({
           </div>
         </a>
       </Link>
-      {comments && <Comments />}
+      {comments && (
+        <Comments comments={post.comments as any} postId={post.id} />
+      )}
     </>
   );
 };
