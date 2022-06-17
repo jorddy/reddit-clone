@@ -11,12 +11,14 @@ import {
 } from "@heroicons/react/solid";
 import { formatRelative } from "date-fns";
 import toast from "react-hot-toast";
-import Link from "next/link";
-import Avatar from "./avatar";
-import Comments from "./comments";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "react-query";
 import { useAddVote } from "@/hooks/mutations/use-add-vote";
+import Link from "next/link";
+import Avatar from "./avatar";
+import dynamic from "next/dynamic";
+
+const Comments = dynamic(() => import("./comments"));
 
 const Post: FC<{
   post: GetPosts[0];
@@ -80,14 +82,12 @@ const Post: FC<{
             <div className='flex items-center gap-2'>
               <Avatar seed={post.subreddit.topic} />
               <p className='text-sm text-gray-400'>
-                <Link href={`/subreddit/${post.subreddit.topic}`}>
-                  <a
-                    className='font-bold text-black transition 
+                <span
+                  className='font-bold text-black transition 
                   hover:text-blue-400 hover:underline'
-                  >
-                    r/{post.subreddit.topic}
-                  </a>
-                </Link>
+                >
+                  r/{post.subreddit.topic}
+                </span>
                 . Posted by u/{post.user.name}{" "}
                 {formatRelative(new Date(post.createdAt), new Date())}
               </p>
@@ -126,6 +126,7 @@ const Post: FC<{
           </div>
         </a>
       </Link>
+
       {comments && (
         <Comments comments={post.comments as any} postId={post.id} />
       )}

@@ -23,13 +23,13 @@ const SubredditFeed: FC<{ topic: string }> = ({ topic }) => {
 };
 
 const MainFeed = () => {
-  const { data, isLoading, isRefetching } = usePosts();
-  useRefetchToast(isRefetching);
+  const { data } = usePosts();
 
   return (
     <div className='my-5 space-y-4'>
-      {isLoading && <Loader />}
-      {!isLoading && data?.map(post => <Post key={post.id} post={post} />)}
+      {data?.map(post => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
   );
 };
