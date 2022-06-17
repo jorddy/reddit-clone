@@ -21,8 +21,7 @@ const Comments: FC<{
     handleSubmit,
     register,
     formState: { errors },
-    reset,
-    watch
+    reset
   } = useForm<CommentValidator>({
     defaultValues: { postId: postId },
     resolver: zodResolver(commentValidator)
@@ -49,6 +48,9 @@ const Comments: FC<{
             session ? "What are your thoughts" : "Please sign in to comment"
           }
         />
+        {errors.comment && (
+          <p className='text-red-500'>{errors.comment.message}</p>
+        )}
 
         <button
           type='submit'
