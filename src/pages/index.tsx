@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Index: FC = () => {
-  const { data, isLoading } = useSubredditsByLimit({ limit: 10 });
+  const { data } = useSubredditsByLimit({ limit: 10 });
 
   return (
     <main className='my-4 container mx-auto px-4'>
@@ -34,24 +34,22 @@ const Index: FC = () => {
       <section className='flex'>
         <Feed />
 
-        {!isLoading && (
-          <aside
-            className='sticky top-36 mx-5 mt-5 hidden h-fit min-w-[300px]
+        <aside
+          className='sticky top-36 mx-5 mt-5 hidden h-fit min-w-[300px]
             rounded-md border border-gray-300 bg-white lg:inline'
-          >
-            <p className='text-md p-4 font-bold'>Top Communities</p>
+        >
+          <p className='text-md p-4 font-bold'>Top Communities</p>
 
-            <div>
-              {data?.map((subreddit, idx) => (
-                <SubredditRow
-                  key={subreddit.id}
-                  topic={subreddit.topic}
-                  idx={idx}
-                />
-              ))}
-            </div>
-          </aside>
-        )}
+          <div>
+            {data?.map((subreddit, idx) => (
+              <SubredditRow
+                key={subreddit.id}
+                topic={subreddit.topic}
+                idx={idx}
+              />
+            ))}
+          </div>
+        </aside>
       </section>
     </main>
   );
